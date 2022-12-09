@@ -1,0 +1,62 @@
+Terminal 1 commands:
+
+ 1.create database DB;
+ 2.use db;
+  3.CREATE TABLE BankDetailTbl(
+    -> Id int,
+    -> AccountNumber varchar(40),
+    -> ClientName Varchar(100),
+    -> Balance varchar(20) );
+
+ 4.INSERT INTO BankDetailTbl
+    -> VALUES
+    -> (1,'7Y290394', 'Betty H. Bonds', '78');
+
+5.start TRANSACTION;
+6.UPDATE BankDetailTbl
+    -> SET
+    ->     Balance=Balance-45
+    -> WHERE AccountNumber = '302040506070';
+
+7.select sleep(60);
+
++-----------+
+| sleep(60) |
++-----------+
+|         0 |
++-----------+
+
+8.rollback;
+
+9. select * from BankDetailTbl;
++------+---------------+----------------+---------+
+| Id   | AccountNumber | ClientName     | Balance |
++------+---------------+----------------+---------+
+|    1 | 7Y290394      | Betty H. Bonds | 78      |
++------+---------------+----------------+---------+
+
+
+Terminal 2 commands
+
+
+ 1.use db;
+ 2.SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+ 3.start TRANSACTION ;
+ 4.SELECT *
+    -> FROM BankDetailTbl
+    -> WHERE AccountNumber = '302040506070';
++------+---------------+----------------+---------+
+| Id   | AccountNumber | ClientName     | Balance |
++------+---------------+----------------+---------+
+|    1 | 7Y290394      | Betty H. Bonds | 33      |
++------+---------------+----------------+---------+
+ 5.commit;
+
+
+After 60 second delay .............
+ 6.select * from BankDetailTbl;
++------+---------------+----------------+---------+
+| Id   | AccountNumber | ClientName     | Balance |
++------+---------------+----------------+---------+
+|    1 | 7Y290394      | Betty H. Bonds | 78      |
++------+---------------+----------------+---------+
